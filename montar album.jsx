@@ -1,12 +1,6 @@
-﻿
-
-
-//Display a standard open file dialog box to select a graphic file.
-var myFolder = Folder.selectDialog("Select the folder containing the images", ""); 
-var myError;
-gerarTemplate (myFolder);
-function gerarTemplate(folder){
+﻿function gerarTemplate(folder){
 var pastaDestino;
+var pastaFinalGlobal;
 myFiles = folder.getFiles("*.jpg"); 
 
 try {
@@ -24,25 +18,36 @@ catch(myError){
         for (myCounter = 0; myCounter < myDocument.rectangles.length-1; myCounter++){  
                 var myRectangle = myDocument.rectangles.item(myCounter); 
                 var arquivo = new File(myFiles[myCounter]);
-                pastaDestino =new Folder(arquivo.path);
+                var pastaDestino =new Folder(arquivo.path);
                 var myGraphic = myRectangle.place(arquivo); 
                 myRectangle.fit(FitOptions.centerContent); 
                 myRectangle.fit(FitOptions.proportionally); 
                 myRectangle.fit(FitOptions.frameToContent); 
                 }    
 
-
-
+            
     } 
 
-app.activeDocument.save(new File(pastaDestino +"/"+pastaDestino.displayName+" Teste.indd"));
+            // encontra a pasta anterior
+            var pastaFinalIndd  = new String(pastaDestino);
+            var tam1 = pastaFinalIndd.length;
+            for (var cont; pastaFinalIndd[tam1] != '/'; tam1 --) { }
+
+            // cria pasta de escape
+            pastaFinalGlobal = new Folder( pastaFinalIndd.substring(0,tam1));
+            pastaFinalIndd = new Folder(pastaFinalGlobal + '/ARQUIVOS INDESIGN');
+           // alert ("indd "+pastaFinalIndd);
+            pastaFinalIndd.create();
+
+
+app.activeDocument.save(new File(pastaFinalIndd +"/"+pastaDestino.displayName+".indd"));
 
 
 //INICIO script EXPORTAR TUDO JPEG
 
                 if (app.documents.length != 0) {  
                     var myDoc = app.activeDocument;  
-                    var myBaseName = myDoc.filePath.displayName;
+                    var myBaseName = myDoc.name;
                 if (myBaseName != null) MakeJPEGfile();  
                     }  
                 else{    
@@ -60,9 +65,11 @@ app.activeDocument.save(new File(pastaDestino +"/"+pastaDestino.displayName+" Te
             app.jpegExportPreferences.jpegExportRange = ExportRangeOrAllPages.exportRange;  
             app.jpegExportPreferences.pageString = myPageName;  
             
-            var myFilePath = new Folder(myDoc.filePath+ "/exportado/");  
-            myFilePath.create();
-            var myFilePath = myDoc.filePath+ "/exportado/"+ myBaseName  + "_" + myPageName + ".jpg";  
+            // cria pasta de escape
+            var pastaFinal = new Folder(pastaFinalGlobal + '/EXPORTADA')
+          //  alert ("jpg "+pastaFinal);
+            pastaFinal.create();
+            var myFilePath = pastaFinal+"/"+ myBaseName  + "_" + myPageName + ".jpg";  
             var myFile = new File(myFilePath);  
             myDoc.exportFile(ExportFormat.jpg, myFile, false);  
            }  
@@ -85,3 +92,19 @@ app.activeDocument.save(new File(pastaDestino +"/"+pastaDestino.displayName+" Te
 
 app.activeDocument.close(SaveOptions.no);
 }
+
+
+
+
+
+//Display a standard open file dialog box to select a graphic file.
+var myFolder = Folder.selectDialog("Select the folder containing the images", ""); 
+var myError;
+var subPastas = myFolder.getFiles ("TEMP*");
+
+    for (var x =0; x<subPastas.length;x++){
+            gerarTemplate (subPastas[x]);
+            }
+    
+
+

@@ -1,4 +1,6 @@
-﻿if (app.documents.length != 0) {  
+﻿//INICIO script EXPORTAR TUDO JPEG
+
+if (app.documents.length != 0) {  
      var myDoc = app.activeDocument;  
      var myBaseName = myDoc.filePath.displayName;
      if (myBaseName != null) MakeJPEGfile();  
@@ -37,3 +39,5 @@ function GetFileNameOnly(myFileName) {
      }  
      return myString;  
 } 
+
+//FIM script EXPORTAR TUDO JPEG
