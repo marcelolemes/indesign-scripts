@@ -101,13 +101,14 @@ app.activeDocument.close(SaveOptions.no);
 var myFolder = Folder.selectDialog("Selecione o curso por favor", ""); 
 var myError;
 var formandos = myFolder.getFiles ("20*");
-
+// Laço formandos
+ for (var y =0; y<formandos.length;y++){
 
 // Laço pastas montagens
-    var subPastas = myFolder.getFiles ("TEMP*");
+    var subPastas = formandos[y].getFiles ("TEMP*");
         for (var x =0; x<subPastas.length;x++){
                 gerarTemplate (subPastas[x]);
                 }
     
-
+}
 
