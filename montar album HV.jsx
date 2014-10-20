@@ -4,10 +4,10 @@ var pastaFinalGlobal;
 myFiles = folder.getFiles("*.jpg"); 
 
 try {
-    app.open(File("N:/INDT/TEMP "+myFiles.length+".indt" ));
+    app.open(File("N:/INDT_HV/TEMP "+myFiles.length+".indt" ));
     }
 catch(myError){
-    alert ("Falha");
+    alert ("Falha ao abrir template");
     }
 
     var myDocument= app.activeDocument;
@@ -15,11 +15,26 @@ catch(myError){
 //place the graphic file on the page.
     if((myFiles.length != 0)&&(myFiles != null)){
     
-        for (myCounter = 0; myCounter < myDocument.rectangles.length-1; myCounter++){  
-                var myRectangle = myDocument.rectangles.item(myCounter); 
+        for (myCounter = 0; myCounter < myFiles.length; myCounter++){  
+            
+           var cont = myCounter;
+           cont= cont+1;
+           
                 var arquivo = new File(myFiles[myCounter]);
                 var pastaDestino =new Folder(arquivo.path);
-                var myGraphic = myRectangle.place(arquivo); 
+                if(arquivo.name[arquivo.name.length-5]=="H"){
+                    //alert(arquivo.name[arquivo.name.length-5]);
+                var myRectangle = myDocument.rectangles.item("frame H"+cont); 
+                     }
+                else if(arquivo.name[arquivo.name.length-5]=="V"){
+                    //alert(arquivo.name[arquivo.name.length-5]);
+                         var myRectangle = myDocument.rectangles.item("frame V"+cont); 
+                    }
+                else{
+                     //  alert(arquivo.name[arquivo.name.length-5]);
+                    }
+                 var myGraphic = myRectangle.place(arquivo);     
+                
                 myRectangle.fit(FitOptions.centerContent); 
                 myRectangle.fit(FitOptions.proportionally); 
                 myRectangle.fit(FitOptions.frameToContent); 
