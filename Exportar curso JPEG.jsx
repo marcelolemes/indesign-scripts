@@ -1,7 +1,7 @@
 ﻿//INICIO script EXPORTAR TUDO JPEG
 
-function exportarDocumento(myDocument){
-    
+function exportarDocumento(myDocument,pastaFormando){
+    var folder = new Folder(pastaFormando);
         try{
             app.open(myDocument);
             
@@ -10,7 +10,7 @@ function exportarDocumento(myDocument){
 
         }
     var myDoc =app.activeDocument;
-        var myBaseName = myDoc.name;
+        var myBaseName = myDoc.name.substring (0, myDoc.name.length-5);
         if (myBaseName != null) MakeJPEGfile();  
 
     else{    
@@ -28,9 +28,9 @@ function exportarDocumento(myDocument){
             app.jpegExportPreferences.jpegExportRange = ExportRangeOrAllPages.exportRange;  
             app.jpegExportPreferences.pageString = myPageName;  
             
-            var myFilePath = new Folder(myDoc.filePath+ "/exportada/");  
+            var myFilePath = new Folder(pastaFormando+ "/FOTOS EXPORTADAS/");  
             myFilePath.create();
-            var myFilePath = myDoc.filePath+ "/exportada/"+ myBaseName  + "_" + myPageName + ".jpg";  
+            var myFilePath = pastaFormando+ "/FOTOS EXPORTADAS/"+ pastaFormando.displayName+" "+myBaseName  + "_" + myPageName + ".jpg";  
             var myFile = new File(myFilePath);  
             myDoc.exportFile(ExportFormat.jpg, myFile, false);  
            
@@ -69,7 +69,7 @@ var formandos = myFolder.getFiles ("20*");
             arquivos = subPastas[x].getFiles ("*.indd");
              if (arquivos.length>0){
                 for(var z =0; z<arquivos.length;z++){
-                    exportarDocumento (arquivos[z]); 
+                    exportarDocumento (arquivos[z], formandos[y]); 
                  }
              }
              
