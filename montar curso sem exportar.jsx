@@ -44,7 +44,7 @@ app.activeDocument.save(new File(pastaFinalIndd +"/"+pastaDestino.displayName+".
 
 
 //INICIO script EXPORTAR TUDO JPEG
-
+/*
                 if (app.documents.length != 0) {  
                     var myDoc = app.activeDocument;  
                     var myBaseName = myDoc.name;
@@ -86,6 +86,7 @@ app.activeDocument.save(new File(pastaFinalIndd +"/"+pastaDestino.displayName+".
                 }  
         return myString;  
       } 
+  */
 
 //FIM script EXPORTAR TUDO JPEG
 
@@ -101,11 +102,12 @@ app.activeDocument.close(SaveOptions.no);
 var myFolder = Folder.selectDialog("Selecione o curso por favor", ""); 
 var myError;
 var formandos = myFolder.getFiles ("20*");
+
 // Laço formandos
- for (var y =0; y<formandos.length;y++){
+ for (var y =0; y < formandos.length;y++){
 
 // Laço pastas montagens
-    var subPastas = formandos[y].getFiles ("TEMP*");
+    var subPastas = formandos[y].getFiles ("T *");
         for (var x =0; x<subPastas.length;x++){
                 gerarTemplate (subPastas[x]);
                 }
