@@ -110,13 +110,13 @@ app.activeDocument.save(new File(pastaFinalIndd +"/"+pastaDestino.displayName+".
 app.activeDocument.close(SaveOptions.no);
 }
 
-function gerarAberturas(folder){
+function gerarAbertura(folder){
 var pastaDestino;
 var pastaFinalGlobal;
 myFiles = folder.getFiles("*.jpg"); 
 
 try {
-    app.open(File("N:/INDT_HV/AB "+folder.displayName+".indt" ));
+    app.open(File("N:/INDT_HV/"+folder.displayName+".indt" ));
     }
 catch(myError){
     alert ("Falha ao abrir template");
@@ -240,6 +240,12 @@ var formandos = myFolder.getFiles ("20*");
 
 // Laço pastas montagens
     var subPastas = formandos[y].getFiles ("T *");
+     var subPastasAb = formandos[y].getFiles ("AB *");
+     
+     for (var z =0; z<subPastasAb.length;z++){
+                gerarAbertura(subPastasAb[z]);
+                }
+
         for (var x =0; x<subPastas.length;x++){
                 gerarTemplate (subPastas[x]);
                 }
